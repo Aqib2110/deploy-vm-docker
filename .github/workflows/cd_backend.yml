@@ -1,0 +1,26 @@
+name: Deploy to a Docker
+on:
+ push:
+   branches: [main]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+     - name: Checkout the code
+       uses: actions/checkout@v2
+
+     - name: Docker login
+       uses: docker/login-actions@v2
+       with:
+         username: ${{ secrets.DOCKERHUB_USERNAME }}
+         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+     - name: build and push
+       uses: docker/build-push-actions@v2
+       with:
+         context: .
+         file: ./Docker/Dockerfile.backend
+         push: true
+         tag: aqib2110/my-todo-backend:${{ github.sha }} 
+
+
