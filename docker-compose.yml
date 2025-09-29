@@ -1,0 +1,92 @@
+# services:
+#   postgres:
+#     image: postgres
+#     environment:
+#       POSTGRES_USER: postgres
+#       POSTGRES_PASSWORD: mysecretpassword
+#       POSTGRES_DB: mydb
+
+#     ports:
+#       - "5432:5432"
+
+#   backend:
+#     image: my-todo-http
+#     build:
+#       context: .
+#       dockerfile: Docker/Dockerfile.backend
+#     ports:
+#       - "3001:3001"
+#     depends_on:
+#       - postgres
+
+#   websocket:
+#     image: my-todo-ws
+#     build:
+#       context: .
+#       dockerfile: Docker/Dockerfile.ws
+#     ports:
+#       - "8080:8080"
+#     depends_on:
+#       - postgres
+
+#   frontend:
+#     image: my-todo-web
+#     build:
+#       context: .
+#       dockerfile: Docker/Dockerfile.frontend
+#       args:
+#         DATABASE_URL: postgresql://postgres:mysecretpassword@postgres:5432/mydb
+#     container_name: my-todo-web
+#     environment:
+#       - DATABASE_URL=postgresql://postgres:mysecretpassword@postgres:5432/mydb
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - backend
+#       - websocket
+services:
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+
+  backend:
+    image: my-todo-http
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.backend
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+
+  websocket:
+    image: my-todo-ws
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.ws
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+
+  frontend:
+    image: my-todo-frontend
+    build:
+      context: .
+      dockerfile: Docker/Dockerfile.frontend
+      args:
+        DATABASE_URL: postgresql://postgres:mysecretpassword@postgres:5432/mydb
+    environment:
+      DATABASE_URL: postgresql://postgres:mysecretpassword@postgres:5432/mydb
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+      - websocket
+   
+
