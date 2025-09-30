@@ -10,6 +10,7 @@ app.post("/signup",async(req:Request,res:Response)=>{
     data:{
         username,
         password
+        
     }
   })
     res.json({

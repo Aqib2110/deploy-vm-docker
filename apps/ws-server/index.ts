@@ -10,9 +10,9 @@ wss.on("connection",(ws:WebSocket)=>{
     }))
     })
     ws.on("message",(msg:any)=>{
-    const message = JSON.parse(msg);
+    const messages = JSON.parse(msg);
     ws.send(JSON.stringify({
-        message:message
+        message:messages
     }))
     })
 })
