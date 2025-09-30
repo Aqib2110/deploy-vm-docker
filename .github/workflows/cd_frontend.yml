@@ -24,3 +24,21 @@ jobs:
          tags: aqib2110/my-todo-web:${{ github.sha }}
          build-args: 
            DATABASE_URL=${{ secrets.DATABASE_URL }} 
+
+     - name: Deploy to VM
+       env:
+          GITHUB_SHA: ${{ github.sha }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+       run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/ssh_key
+          chmod 600 ~/ssh_key
+          
+          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@16.171.18.68 "
+            sudo docker rm -f my-todo-web || true
+            sudo docker run -d \
+              --name my-todo-web \
+              -e DATABASE_URL='${DATABASE_URL}' \
+              -p 3001:3001 \
+              aqib2110/my-todo-web:${GITHUB_SHA}
+          "
+          rm -f ~/ssh_key      

@@ -60,11 +60,9 @@ jobs:
           GITHUB_SHA: ${{ github.sha }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          # Save SSH key safely
           echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/ssh_key
           chmod 600 ~/ssh_key
 
-          # SSH into VM and deploy Docker container
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@16.171.18.68 "
             sudo docker rm -f my-todo-backend || true
             sudo docker run -d \
@@ -73,8 +71,6 @@ jobs:
               -p 3001:3001 \
               aqib2110/my-todo-backend:${GITHUB_SHA}
           "
-
-          # Remove SSH key from runner
           rm -f ~/ssh_key
 
 
