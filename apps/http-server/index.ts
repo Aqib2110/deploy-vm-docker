@@ -9,12 +9,11 @@ app.post("/signup",async(req:Request,res:Response)=>{
      const user = await prismaClient.user.create({
     data:{
         username,
-        password
-        
+        password  
     }
   })
     res.json({
-        message:"signup successfully",
+        message:"signup successfullys",
         id:user.id
 
     })

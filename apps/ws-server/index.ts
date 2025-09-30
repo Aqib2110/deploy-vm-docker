@@ -3,7 +3,7 @@ import WebSocket, { WebSocketServer } from "ws";
 const wss = new WebSocketServer({port:8080})
 
 wss.on("connection",(ws:WebSocket)=>{
-    ws.send("connected to websocket")
+    ws.send("connected to websockets")
     ws.on("error",(err)=>{
     ws.send(JSON.stringify({
         error:err

@@ -10,7 +10,7 @@ export default async function Home() {
   return (
     <div className={styles.page}>
      Todos : {JSON.stringify(todo) || ''}
-     Users : {todo?.user?.username || ''}
+     User : {todo?.user?.username || ''}
     </div>
   );
 }
