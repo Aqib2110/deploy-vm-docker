@@ -22,21 +22,3 @@ jobs:
          file: ./Docker/Dockerfile.ws
          push: true
          tags: aqib2110/my-todo-ws:${{ github.sha }} 
-
-     - name: Deploy to VM
-       env:
-          GITHUB_SHA: ${{ github.sha }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-       run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/ssh_key
-          chmod 600 ~/ssh_key
-          
-          ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@16.171.18.68 "
-            sudo docker rm -f my-todo-ws || true
-            sudo docker run -d \
-              --name my-todo-ws \
-              -e DATABASE_URL='${DATABASE_URL}' \
-              -p 8080:8080 \
-              aqib2110/my-todo-ws:${GITHUB_SHA}
-          "
-          rm -f ~/ssh_key
