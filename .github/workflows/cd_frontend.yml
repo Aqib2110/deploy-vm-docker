@@ -38,7 +38,7 @@ jobs:
             sudo docker run -d \
               --name my-todo-web \
               -e DATABASE_URL='${DATABASE_URL}' \
-              -p 3001:3001 \
+              -p 3000:3000 \
               aqib2110/my-todo-web:${GITHUB_SHA}
           "
           rm -f ~/ssh_key      
