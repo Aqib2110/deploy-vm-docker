@@ -27,6 +27,6 @@ jobs:
        run: | 
          echo "${{ secrets.SSH_PRIVATE_KEY }}" &> ~/ssh_key 
          chmod 600 /home/runner/ssh_key
-         ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@16.171.18.68 "sudo docker rm -f my-todo-backend || true && sudo docker run --name my-todo-backend -e DATABASE_URL=${{ secrets.DATABASE_URL }} -p 3001:3001 aqib2110/my-todo-backend:${{ github.sha }}"  
+         ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@16.171.18.68 "sudo docker rm -f my-todo-backend || true && sudo docker run --name my-todo-backend -e DATABASE_URL="${{ secrets.DATABASE_URL }}" -p 3001:3001 aqib2110/my-todo-backend:${{ github.sha }}"  
 
 
