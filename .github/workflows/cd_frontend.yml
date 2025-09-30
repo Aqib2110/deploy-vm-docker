@@ -1,4 +1,4 @@
-name: Deploy frontend to Docker 
+name: Deploy to Docker frontend 
 on:
  push:
    branches: [main]
@@ -16,7 +16,7 @@ jobs:
          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
      - name: Build and push
-       uses: docker@build-push-action@v2
+       uses: docker/build-push-action@v2
        with:
          context: .
          file: ./Docker/Dockerfile.frontend   
