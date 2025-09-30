@@ -22,5 +22,3 @@ jobs:
          file: ./Docker/Dockerfile.ws
          push: true
          tags: aqib2110/my-todo-ws:${{ github.sha }} 
-
-
