@@ -33,6 +33,9 @@ name: Deploy to a Docker
 on:
   push:
     branches: [main]
+    paths:
+     - 'apps/http-server/**'
+     - 'Docker/Dockerfile.backend'
 
 jobs:
   build:
@@ -65,25 +68,11 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@16.171.18.68 "
             sudo docker rm -f my-todo-backend || true
-            sudo docker rm -f my-todo-ws || true
-            sudo docker rm -f my-todo-web || true
             sudo docker run -d \
               --name my-todo-backend \
               -e DATABASE_URL='${DATABASE_URL}' \
               -p 3001:3001 \
               aqib2110/my-todo-backend:${GITHUB_SHA}
-
-            sudo docker run -d \
-              --name my-todo-ws \
-              -e DATABASE_URL='${DATABASE_URL}' \
-              -p 8080:8080 \
-              aqib2110/my-todo-ws:${GITHUB_SHA}
-
-            sudo docker run -d \
-              --name my-todo-web \
-              -e DATABASE_URL='${DATABASE_URL}' \
-              -p 3000:3000 \
-              aqib2110/my-todo-web:${GITHUB_SHA}
           "
           rm -f ~/ssh_key
 
